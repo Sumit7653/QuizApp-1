@@ -1,41 +1,51 @@
 const questions = [
     {
-        question: "Inside which HTML element do we put the JavaScript?",
+        question: "Which method is used to convert a JSON string into a JavaScript object?",
         answers: [
-            { text: "&lt;script&gt;", correct: true },
-            { text: "&lt;scripting&gt;", correct: false },
-            { text: "&lt;javascript&gt;", correct: false },
-            { text: "&lt;js&gt;", correct: false },
+            { text: "JSON.parse()", correct: true },
+            { text: "JSON.stringify()", correct: false },
+            { text: "JSON.convert()", correct: false },
+            { text: "JSON.toObject()", correct: false }
         ]
     },
     {
-        question: "Which of the following keywords is used to define a variable in Javascript?",
+        question: "Which JavaScript keyword is used to create a constant variable?",
         answers: [
             { text: "var", correct: false },
             { text: "let", correct: false },
-            { text: "Both A and B", correct: true },
-            { text: "None of the above", correct: false },
+            { text: "const", correct: true },
+            { text: "constant", correct: false }
         ]
     },
     {
-        question: "What is the result of '5' + 3 in JavaScript?",
+        question: "What is a correct syntax for an arrow function in JavaScript?",
         answers: [
-            { text: "8", correct: false },
-            { text: "53", correct: true },
-            { text: "15", correct: false },
-            { text: "NaN", correct: false },
+            { text: "function => () {}", correct: false },
+            { text: "() -> {}", correct: false },
+            { text: "() => {}", correct: true },
+            { text: "() => []", correct: false }
         ]
     },
     {
-        question: "Which function is used to print a message to the console in JavaScript?",
+        question: "Which operator is used to check both value and type in JavaScript?",
         answers: [
-            { text: "print()", correct: false },
-            { text: "console.log()", correct: true },
-            { text: "alert()", correct: false },
-            { text: "log()", correct: false },
+            { text: "==", correct: false },
+            { text: "!=", correct: false },
+            { text: "===", correct: true },
+            { text: "=", correct: false }
+        ]
+    },
+    {
+        question: "Which JavaScript method adds an element to the end of an array?",
+        answers: [
+            { text: "push()", correct: true },
+            { text: "pop()", correct: false },
+            { text: "shift()", correct: false },
+            { text: "unshift()", correct: false }
         ]
     }
 ];
+
 
 const questionElement = document.getElementById("question");
 const answerButtons = document.getElementById("answer-buttons");
@@ -47,37 +57,34 @@ let score = 0;
 function startQuiz() {
     currentQuestionIndex = 0;
     score = 0;
-    nextButton.innerHTML = "Next";
+    nextButton.textContent = "Next";
     showQuestion();
 }
 
 function showQuestion() {
     resetState();
-    let currentQuestion = questions[currentQuestionIndex];
-    let questionNo = currentQuestionIndex + 1;
-    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+    const currentQuestion = questions[currentQuestionIndex];
+    questionElement.textContent = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+    
     currentQuestion.answers.forEach(answer => {
         const button = document.createElement("button");
-        button.innerHTML = answer.text;
+        button.textContent = answer.text;
         button.classList.add("btn");
-        answerButtons.appendChild(button);
-        if (answer.correct) {
-            button.dataset.correct = answer.correct;
-        }
+        if (answer.correct) button.dataset.correct = "true";
         button.addEventListener("click", selectAnswer);
-    })
+        answerButtons.appendChild(button);
+    });
 }
 
 function resetState() {
     nextButton.style.display = "none";
-    while (answerButtons.firstChild) {
-        answerButtons.removeChild(answerButtons.firstChild);
-    }
+    answerButtons.innerHTML = "";
 }
 
 function selectAnswer(e) {
     const selectedBtn = e.target;
     const isCorrect = selectedBtn.dataset.correct === "true";
+    
     if (isCorrect) {
         selectedBtn.classList.add("correct");
         score++;
@@ -90,16 +97,16 @@ function selectAnswer(e) {
             button.classList.add("correct");
         }
         button.disabled = true;
-    })
-    nextButton.style.display = "block";
-}
+    });
 
+    nextButton.style.display = "inline-block";
+}
 
 function showScore() {
     resetState();
-    questionElement.innerHTML = `You scored ${score} out of ${questions.length}!`;
-    nextButton.innerHTML = "Play Again";
-    nextButton.style.display = "block";
+    questionElement.textContent = `🎉 You scored ${score} out of ${questions.length}!`;
+    nextButton.textContent = "Play Again";
+    nextButton.style.display = "inline-block";
 }
 
 function handleNextButton() {
@@ -117,6 +124,7 @@ nextButton.addEventListener("click", () => {
     } else {
         startQuiz();
     }
-})
+});
 
 startQuiz();
+c
